@@ -209,6 +209,7 @@
         }
 
         /* --- TEMPLATE GLOBAL UNTUK KOMPONEN ISI --- */
+        /* Komponen di bawah ini otomatis ter-style modern jika dipanggil di dalam renderSection */
         .cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -352,13 +353,6 @@
 
 <div class="wrapper">
 
-    <?php
-    // Perbaikan pengambilan URI via method getUri() demi keamanan akses enkapsulasi
-    $uri   = service('request')->getUri();
-    $seg_2 = $uri->getTotalSegments() >= 2 ? $uri->getSegment(2) : '';
-    $seg_3 = $uri->getTotalSegments() >= 3 ? $uri->getSegment(3) : '';
-    ?>
-
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-brand">
@@ -370,40 +364,14 @@
         <div class="system-tag">Android Ticketing</div>
 
         <nav class="menu">
-            <!-- 1. Dashboard -->
-            <a href="/dashboard" class="<?= ($seg_2 === '' || $seg_2 === 'index') ? 'active' : '' ?>">
-                <i class="uil uil-apps"></i> <span>Dashboard</span>
-            </a>
-            
-            <!-- 2. Manajemen User -->
-            <a href="/dashboard/users" class="<?= ($seg_2 === 'users') ? 'active' : '' ?>">
-                <i class="uil uil-users-alt"></i> <span>Manajemen User</span>
-            </a>
-            
-            <!-- 3. Daftar Tiket -->
-            <a href="/dashboard/tickets" class="<?= ($seg_2 === 'tickets' && $seg_3 !== 'create') ? 'active' : '' ?>">
-                <i class="uil uil-ticket"></i> <span>Daftar Tiket</span>
-            </a>
-            
-            <!-- 4. Buat Tiket -->
-            <a href="/dashboard/tickets/create" class="<?= ($seg_2 === 'tickets' && $seg_3 === 'create') ? 'active' : '' ?>">
-                <i class="uil uil-plus-circle"></i> <span>Buat Tiket</span>
-            </a>
-            
-            <!-- 5. Notifikasi -->
-            <a href="/dashboard/notifications" class="<?= ($seg_2 === 'notifications') ? 'active' : '' ?>">
-                <i class="uil uil-bell"></i> <span>Notifikasi</span>
-            </a>
-            
-            <!-- 6. Rating -->
-            <a href="/dashboard/ratings" class="<?= ($seg_2 === 'ratings') ? 'active' : '' ?>">
-                <i class="uil uil-star"></i> <span>Rating</span>
-            </a>
-            
-            <!-- 7. Laporan KPI/SLA -->
-            <a href="/dashboard/reports/sla" class="<?= ($seg_2 === 'reports') ? 'active' : '' ?>">
-                <i class="uil uil-chart-growth"></i> <span>Laporan KPI/SLA</span>
-            </a>
+            <!-- Gunakan class "active" secara dinamis pada menu yang aktif -->
+            <a href="/dashboard" class="active"><i class="uil uil-apps"></i> <span>Dashboard</span></a>
+            <a href="/dashboard/users"><i class="uil uil-users-alt"></i> <span>Manajemen User</span></a>
+            <a href="/dashboard/tickets"><i class="uil uil-ticket"></i> <span>Daftar Tiket</span></a>
+            <a href="/dashboard/tickets/create"><i class="uil uil-plus-circle"></i> <span>Buat Tiket</span></a>
+            <a href="/dashboard/notifications"><i class="uil uil-bell"></i> <span>Notifikasi</span></a>
+            <a href="/dashboard/ratings"><i class="uil uil-star"></i> <span>Rating</span></a>
+            <a href="/dashboard/reports/sla"><i class="uil uil-chart-growth"></i> <span>Laporan KPI/SLA</span></a>
         </nav>
     </aside>
 
@@ -427,7 +395,7 @@
             </div>
         </div>
 
-        <!-- MAIN SECTION -->
+        <!-- MAIN SECTION (Dinamis dari view CodeIgniter Anda) -->
         <div class="main">
             <?= $this->renderSection('content') ?>
         </div>

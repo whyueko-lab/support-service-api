@@ -406,7 +406,7 @@
                                     </form>
                                 <?php else : ?>
                                     <span class="badge-status done">
-                                        SELESAI
+                                        SELESAI / TERKUNCI
                                     </span>
                                 <?php endif; ?>
                             </td>

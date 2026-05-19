@@ -173,14 +173,6 @@ class TicketController extends BaseController
 
         $ticket = $ticketModel->find($id_tiket);
 
-        if (!$ticket) {
-            return $this->response->setJSON([
-                'status' => false,
-                'message' => 'Tiket tidak ditemukan'
-            ]);
-        }
-
-        // CEGAH STATUS DONE DIUBAH LAGI
         if ($ticket['status'] === 'done') {
             return $this->response->setJSON([
                 'status' => false,

@@ -353,10 +353,10 @@
 <div class="wrapper">
 
     <?php
-    // Perbaikan pengambilan URI via method getUri() demi keamanan akses enkapsulasi
-    $uri   = service('request')->getUri();
-    $seg_2 = $uri->getTotalSegments() >= 2 ? $uri->getSegment(2) : '';
-    $seg_3 = $uri->getTotalSegments() >= 3 ? $uri->getSegment(3) : '';
+    // Membaca request URI secara dinamis melalui service CodeIgniter 4
+    $request = service('request');
+    $seg_2   = $request->uri->getTotalSegments() >= 2 ? $request->uri->getSegment(2) : '';
+    $seg_3   = $request->uri->getTotalSegments() >= 3 ? $request->uri->getSegment(3) : '';
     ?>
 
     <!-- SIDEBAR -->
