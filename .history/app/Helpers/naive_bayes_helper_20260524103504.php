@@ -70,11 +70,7 @@ if (!function_exists('klasifikasiNaiveBayes')) {
             'multirat' => 'multirat',
             'kabel' => 'kabel',
             'port' => 'port',
-            'kabel rf' => 'kabel rf',
-            'switch' => 'switch',
-            'on off' => 'on off',
-            'restart' => 'restart',
-            'reset' => 'reset'
+            'kabel rf'
         ];
 
         foreach ($slang as $slangWord => $correctWord) {

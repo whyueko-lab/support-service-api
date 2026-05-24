@@ -50,31 +50,7 @@ if (!function_exists('klasifikasiNaiveBayes')) {
             'bts'    => 'bts',
             'hunter' => 'hunter',
             'disruptor' => 'disruptor',
-            'monitoring' => 'monitoring',
-            'tx' => 'transmit',
-            'transmisi' => 'transmit',
-            'pancar' => 'transmit',
-            'memancar' => 'transmit',
-            'sinyal' => 'signal',
-            'unit' => 'mobil',
-            'kendaraan' => 'mobil',
-            'zenix' => 'mobil',
-            '2g' => '2g',
-            'gsm' => '2g',
-            '3g' => '3g',
-            '4g' => '4g',
-            '5g' => '5g',
-            'modem' => 'modem',
-            'router' => 'router',
-            'gateway' => 'gateway',
-            'multirat' => 'multirat',
-            'kabel' => 'kabel',
-            'port' => 'port',
-            'kabel rf' => 'kabel rf',
-            'switch' => 'switch',
-            'on off' => 'on off',
-            'restart' => 'restart',
-            'reset' => 'reset'
+            'monitoring' => 'monitoring'
         ];
 
         foreach ($slang as $slangWord => $correctWord) {

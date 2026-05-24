@@ -73,8 +73,6 @@ if (!function_exists('klasifikasiNaiveBayes')) {
             'kabel rf' => 'kabel rf',
             'switch' => 'switch',
             'on off' => 'on off',
-            'restart' => 'restart',
-            'reset' => 'reset'
         ];
 
         foreach ($slang as $slangWord => $correctWord) {

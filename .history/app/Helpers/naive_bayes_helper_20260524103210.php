@@ -67,14 +67,7 @@ if (!function_exists('klasifikasiNaiveBayes')) {
             'modem' => 'modem',
             'router' => 'router',
             'gateway' => 'gateway',
-            'multirat' => 'multirat',
-            'kabel' => 'kabel',
-            'port' => 'port',
-            'kabel rf' => 'kabel rf',
-            'switch' => 'switch',
-            'on off' => 'on off',
-            'restart' => 'restart',
-            'reset' => 'reset'
+            '   '
         ];
 
         foreach ($slang as $slangWord => $correctWord) {

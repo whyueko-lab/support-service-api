@@ -74,7 +74,8 @@ if (!function_exists('klasifikasiNaiveBayes')) {
             'switch' => 'switch',
             'on off' => 'on off',
             'restart' => 'restart',
-            'reset' => 'reset'
+            'reset' => 'reset',
+            ''
         ];
 
         foreach ($slang as $slangWord => $correctWord) {

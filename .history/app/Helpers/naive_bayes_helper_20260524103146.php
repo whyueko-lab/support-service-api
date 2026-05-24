@@ -62,19 +62,6 @@ if (!function_exists('klasifikasiNaiveBayes')) {
             '2g' => '2g',
             'gsm' => '2g',
             '3g' => '3g',
-            '4g' => '4g',
-            '5g' => '5g',
-            'modem' => 'modem',
-            'router' => 'router',
-            'gateway' => 'gateway',
-            'multirat' => 'multirat',
-            'kabel' => 'kabel',
-            'port' => 'port',
-            'kabel rf' => 'kabel rf',
-            'switch' => 'switch',
-            'on off' => 'on off',
-            'restart' => 'restart',
-            'reset' => 'reset'
         ];
 
         foreach ($slang as $slangWord => $correctWord) {

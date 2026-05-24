@@ -22,59 +22,11 @@ if (!function_exists('klasifikasiNaiveBayes')) {
             'gak'    => 'tidak',
             'ga'     => 'tidak',
             'gk'     => 'tidak',
-            'tdk'    => 'tidak',
-            'bisa'   => 'bisa',
             'net'    => 'internet',
-            'inet'   => 'internet',
+            'komp'   => 'komputer',
+            'pc'     => 'komputer',
             'wifi'   => 'wifi',
-            'wifie'  => 'wifi',
-            'wi-fi'  => 'wifi',
-            'ap'     => 'access point',
-            'cctv'   => 'cctv',
-            'cam'    => 'kamera',
-            'camera' => 'kamera',
-            'kamera' => 'kamera',
-            'nvr'    => 'nvr',
-            'dvr'    => 'dvr',
-            'srv'    => 'server',
-            'db'     => 'database',
-            'apps'   => 'aplikasi',
-            'app'    => 'aplikasi',
-            'login'  => 'login',
-            'cpu'    => 'cpu',
-            'ram'    => 'memory',
-            'memori' => 'memory',
-            'hdd'    => 'harddisk',
-            'ssd'    => 'harddisk',
-            'rf'     => 'rf',
-            'bts'    => 'bts',
-            'hunter' => 'hunter',
-            'disruptor' => 'disruptor',
-            'monitoring' => 'monitoring',
-            'tx' => 'transmit',
-            'transmisi' => 'transmit',
-            'pancar' => 'transmit',
-            'memancar' => 'transmit',
-            'sinyal' => 'signal',
-            'unit' => 'mobil',
-            'kendaraan' => 'mobil',
-            'zenix' => 'mobil',
-            '2g' => '2g',
-            'gsm' => '2g',
-            '3g' => '3g',
-            '4g' => '4g',
-            '5g' => '5g',
-            'modem' => 'modem',
-            'router' => 'router',
-            'gateway' => 'gateway',
-            'multirat' => 'multirat',
-            'kabel' => 'kabel',
-            'port' => 'port',
-            'kabel rf' => 'kabel rf',
-            'switch' => 'switch',
-            'on off' => 'on off',
-            'restart' => 'restart',
-            'reset' => 'reset'
+            'wifie'  => 'wifi'
         ];
 
         foreach ($slang as $slangWord => $correctWord) {
@@ -267,46 +219,6 @@ if (!function_exists('klasifikasiNaiveBayes')) {
             // =========================
             // Kategori Perangkat BTS / Lab Seluler
             // =========================
-            [
-                'text' => 'bts 2g tidak mau transmit di mobil operasional',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'bts 2g tidak transmit unit mobil tidak keluar sinyal',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'perangkat bts di mobil zenix tidak mau transmit',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'bts mobile tidak transmit perlu pengecekan teknisi',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'modul bts 2g tidak aktif transmit gagal',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'perangkat bts kendaraan tidak mengirim sinyal',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'bts mobil tidak keluar transmit setelah dinyalakan',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'unit bts zenix nomor mobil bermasalah transmit tidak jalan',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
             [
                 'text' => 'perangkat bts lab tidak sinkron modul tidak aktif',
                 'kategori' => 'perangkat_bts',
@@ -635,12 +547,7 @@ if (!function_exists('klasifikasiNaiveBayes')) {
         // 9. Tentukan Prioritas
         // =========================
         $priorityMap = [
-            'server' => 'high',
-            'internet' => 'high',
-            'wifi' => 'medium',
-            'cctv' => 'high',
-            'perangkat_bts' => 'high',
-            'perangkat_rf' => 'high',
+            'jaringan' => 'high',
             'hardware' => 'medium',
             'software' => 'medium',
             'umum' => 'low'
