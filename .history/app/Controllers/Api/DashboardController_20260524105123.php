@@ -9,23 +9,7 @@ use App\Models\RatingModel;
 
 class DashboardController extends BaseController
 {
-    private function updateOverdueTickets()
-    {
-        $ticketModel = new TicketModel();
-
-        $now = date('Y-m-d H:i:s');
-
-        $ticketModel
-            ->whereIn('status', ['open', 'in_progress'])
-            ->where('tanggal_selesai', null)
-            ->where('deadline <', $now)
-            ->set([
-                'status' => 'overdue',
-                'updated_at' => $now
-            ])
-            ->update();
-    }
-
+    
     public function admin()
     {
         $this->updateOverdueTickets();
@@ -132,6 +116,21 @@ class DashboardController extends BaseController
                 'beban_kerja_teknisi' => $bebanTeknisi
             ]
         ]);
+    }
+
+    // =========================
+    // OVERDUE TIKET TEKNISI
+    // =========================
+
+    private function updateOverdueTickets()
+    {
+        $ticketModel = new TicketModel();
+
+        $ticketModel
+            ->whereIn('status', ['open', 'in_progress'])
+            ->where('deadline <', date('Y-m-d H:i:s'))
+            ->set(['status' => 'overdue'])
+            ->update();
     }
 
     public function teknisi($id_teknisi)

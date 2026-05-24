@@ -12,8 +12,6 @@ class Dashboard extends BaseController
 {
     private function updateOverdueTickets()
     {
-        date_default_timezone_set('Asia/Jakarta');
-
         $ticketModel = new TicketModel();
 
         $now = date('Y-m-d H:i:s');
@@ -31,8 +29,6 @@ class Dashboard extends BaseController
 
     public function index()
     {
-        date_default_timezone_set('Asia/Jakarta');
-
         $this->updateOverdueTickets();
 
         $db = \Config\Database::connect();
@@ -47,11 +43,12 @@ class Dashboard extends BaseController
         if ($check) {
             return $check;
         }
-
+            
         $ticketModel = new TicketModel();
         $userModel   = new UserModel();
         $ratingModel = new RatingModel();
 
+        // Ringkasan tiket
         $totalTiket = $ticketModel->countAllResults();
 
         $open = $ticketModel
@@ -70,6 +67,7 @@ class Dashboard extends BaseController
             ->where('status', 'overdue')
             ->countAllResults();
 
+        // Ringkasan user
         $totalCustomer = $userModel
             ->where('role', 'customer')
             ->countAllResults();
@@ -78,6 +76,7 @@ class Dashboard extends BaseController
             ->where('role', 'teknisi')
             ->countAllResults();
 
+        // Rating
         $ratings = $ratingModel->findAll();
 
         $totalRating = count($ratings);
@@ -90,6 +89,7 @@ class Dashboard extends BaseController
         $rataRataRating = $totalRating > 0 ? $totalNilai / $totalRating : 0;
         $kepuasanPersen = ($rataRataRating / 5) * 100;
 
+        // Beban kerja teknisi
         $teknisi = $userModel
             ->where('role', 'teknisi')
             ->findAll();
@@ -132,6 +132,7 @@ class Dashboard extends BaseController
             'totalNotifikasi' => $totalNotifikasi,
             'notifikasiBelumDibaca' => $notifikasiBelumDibaca,
             'bebanTeknisi' => $bebanTeknisi
+            
         ];
 
         return view('dashboard/index', $data);
@@ -139,8 +140,6 @@ class Dashboard extends BaseController
 
     public function tickets()
     {
-        date_default_timezone_set('Asia/Jakarta');
-
         $this->updateOverdueTickets();
 
         $check = $this->checkAdmin();
@@ -148,7 +147,7 @@ class Dashboard extends BaseController
             return $check;
         }
 
-        $ticketModel = new TicketModel();
+        $ticketModel = new \App\Models\TicketModel();
 
         $keyword   = $this->request->getGet('keyword');
         $status    = $this->request->getGet('status');
@@ -197,9 +196,7 @@ class Dashboard extends BaseController
 
     public function updateTicketStatus($id_tiket)
     {
-        date_default_timezone_set('Asia/Jakarta');
-
-        $ticketModel = new TicketModel();
+        $ticketModel = new \App\Models\TicketModel();
         $db = \Config\Database::connect();
 
         $check = $this->checkAdmin();
@@ -209,8 +206,6 @@ class Dashboard extends BaseController
 
         $status = $this->request->getPost('status');
 
-        // Overdue tidak boleh dipilih manual.
-        // Overdue hanya boleh diubah otomatis oleh sistem.
         $allowedStatus = ['open', 'in_progress', 'done'];
 
         if (!in_array($status, $allowedStatus)) {
@@ -232,11 +227,6 @@ class Dashboard extends BaseController
             $dataUpdate['tanggal_selesai'] = date('Y-m-d H:i:s');
         }
 
-        // Jika tiket dikembalikan ke open / in_progress, tanggal_selesai dikosongkan lagi.
-        if ($status === 'open' || $status === 'in_progress') {
-            $dataUpdate['tanggal_selesai'] = null;
-        }
-
         $ticketModel->update($id_tiket, $dataUpdate);
 
         $db->table('notifications')->insert([
@@ -252,12 +242,12 @@ class Dashboard extends BaseController
 
     public function createTicketForm()
     {
+        $userModel = new \App\Models\UserModel();
+
         $check = $this->checkAdmin();
         if ($check) {
             return $check;
         }
-
-        $userModel = new UserModel();
 
         $customers = $userModel
             ->where('role', 'customer')
@@ -274,17 +264,15 @@ class Dashboard extends BaseController
 
     public function storeTicket()
     {
-        date_default_timezone_set('Asia/Jakarta');
-
         helper('naive_bayes');
-
+            
         $check = $this->checkAdmin();
         if ($check) {
             return $check;
         }
 
-        $ticketModel = new TicketModel();
-        $userModel   = new UserModel();
+        $ticketModel = new \App\Models\TicketModel();
+        $userModel   = new \App\Models\UserModel();
         $db          = \Config\Database::connect();
 
         $id_user   = $this->request->getPost('id_user');
@@ -294,12 +282,18 @@ class Dashboard extends BaseController
             return redirect()->to('/dashboard/tickets/create');
         }
 
+        // =========================
+        // 1. Klasifikasi Naive Bayes
+        // =========================
         $hasilKlasifikasi = klasifikasiNaiveBayes($deskripsi);
 
         $kategori  = $hasilKlasifikasi['kategori'];
         $prioritas = $hasilKlasifikasi['prioritas'];
         $score     = $hasilKlasifikasi['score'];
 
+        // =========================
+        // 2. Ambil KPI/SLA
+        // =========================
         $kpi = $db->table('kpi_sla')
             ->where('prioritas', $prioritas)
             ->get()
@@ -311,6 +305,9 @@ class Dashboard extends BaseController
         $tanggal_masuk = date('Y-m-d H:i:s');
         $deadline      = date('Y-m-d H:i:s', strtotime("+$tat_hari days"));
 
+        // =========================
+        // 3. Load Balancing Teknisi
+        // =========================
         $teknisi = $userModel
             ->where('role', 'teknisi')
             ->where('status_user', 'aktif')
@@ -331,6 +328,9 @@ class Dashboard extends BaseController
             }
         }
 
+        // =========================
+        // 4. Simpan Tiket
+        // =========================
         $data = [
             'id_user'        => $id_user,
             'id_teknisi'    => $id_teknisi_terpilih,
@@ -349,6 +349,9 @@ class Dashboard extends BaseController
         $ticketModel->insert($data);
         $id_tiket = $ticketModel->insertID();
 
+        // =========================
+        // 5. Notifikasi Customer
+        // =========================
         $db->table('notifications')->insert([
             'id_user'     => $id_user,
             'id_tiket'    => $id_tiket,
@@ -357,6 +360,9 @@ class Dashboard extends BaseController
             'status_baca' => 0
         ]);
 
+        // =========================
+        // 6. Notifikasi Teknisi
+        // =========================
         if ($id_teknisi_terpilih) {
             $db->table('notifications')->insert([
                 'id_user'     => $id_teknisi_terpilih,
@@ -372,15 +378,13 @@ class Dashboard extends BaseController
 
     public function ticketDetail($id_tiket)
     {
-        $this->updateOverdueTickets();
-
         $check = $this->checkAdmin();
         if ($check) {
             return $check;
         }
 
-        $ticketModel = new TicketModel();
-        $ratingModel = new RatingModel();
+        $ticketModel = new \App\Models\TicketModel();
+        $ratingModel = new \App\Models\RatingModel();
         $db = \Config\Database::connect();
 
         $ticket = $ticketModel
@@ -422,12 +426,12 @@ class Dashboard extends BaseController
 
     public function notifications()
     {
+        $db = \Config\Database::connect();
+
         $check = $this->checkAdmin();
         if ($check) {
             return $check;
         }
-
-        $db = \Config\Database::connect();
 
         $notifications = $db->table('notifications')
             ->select('
@@ -454,12 +458,12 @@ class Dashboard extends BaseController
 
     public function ratings()
     {
+        $ratingModel = new \App\Models\RatingModel();
+
         $check = $this->checkAdmin();
         if ($check) {
             return $check;
         }
-
-        $ratingModel = new RatingModel();
 
         $ratings = $ratingModel
             ->select('
@@ -485,21 +489,21 @@ class Dashboard extends BaseController
 
     public function slaReport()
     {
-        date_default_timezone_set('Asia/Jakarta');
-
-        $this->updateOverdueTickets();
-
         $check = $this->checkAdmin();
         if ($check) {
             return $check;
         }
 
-        $userModel   = new UserModel();
-        $ratingModel = new RatingModel();
+        $ticketModel = new \App\Models\TicketModel();
+        $userModel   = new \App\Models\UserModel();
+        $ratingModel = new \App\Models\RatingModel();
 
         $startDate = $this->request->getGet('start_date');
         $endDate   = $this->request->getGet('end_date');
 
+        // =========================
+        // HELPER FILTER TANGGAL
+        // =========================
         $applyDateFilter = function ($query) use ($startDate, $endDate) {
             if (!empty($startDate)) {
                 $query->where('tanggal_masuk >=', $startDate . ' 00:00:00');
@@ -512,33 +516,35 @@ class Dashboard extends BaseController
             return $query;
         };
 
-        $totalTiket = $applyDateFilter(new TicketModel())
-            ->countAllResults();
+        // =========================
+        // DATA TIKET
+        // =========================
+        $totalTiket = $applyDateFilter($ticketModel)->countAllResults();
 
-        $totalDone = $applyDateFilter(new TicketModel())
+        $totalDone = $applyDateFilter(new \App\Models\TicketModel())
             ->where('status', 'done')
             ->countAllResults();
 
-        $overdueAktif = $applyDateFilter(new TicketModel())
+        $totalOverdue = $applyDateFilter(new \App\Models\TicketModel())
             ->where('status', 'overdue')
             ->countAllResults();
 
-        $onTime = $applyDateFilter(new TicketModel())
+        $onTime = $applyDateFilter(new \App\Models\TicketModel())
             ->where('status', 'done')
             ->where('tanggal_selesai <= deadline')
             ->countAllResults();
 
-        $lateDone = $applyDateFilter(new TicketModel())
+        $lateDone = $applyDateFilter(new \App\Models\TicketModel())
             ->where('status', 'done')
             ->where('tanggal_selesai > deadline')
             ->countAllResults();
 
-        // Total overdue laporan = tiket masih overdue + tiket selesai melewati deadline.
-        $totalOverdue = $overdueAktif + $lateDone;
-
         $persenOnTime = $totalDone > 0 ? ($onTime / $totalDone) * 100 : 0;
         $persenLate   = $totalDone > 0 ? ($lateDone / $totalDone) * 100 : 0;
 
+        // =========================
+        // RATING / KEPUASAN
+        // =========================
         $ratingQuery = $ratingModel
             ->select('ratings.*')
             ->join('tickets', 'tickets.id_tiket = ratings.id_tiket');
@@ -563,6 +569,9 @@ class Dashboard extends BaseController
         $rataRataRating = $totalRating > 0 ? $totalNilai / $totalRating : 0;
         $kepuasanPersen = ($rataRataRating / 5) * 100;
 
+        // =========================
+        // PERFORMA TEKNISI
+        // =========================
         $teknisi = $userModel
             ->where('role', 'teknisi')
             ->findAll();
@@ -572,36 +581,24 @@ class Dashboard extends BaseController
         foreach ($teknisi as $t) {
             $idTeknisi = $t['id_user'];
 
-            $totalTiketTeknisiQuery = new TicketModel();
+            $totalTiketTeknisiQuery = new \App\Models\TicketModel();
             $totalTiketTeknisiQuery->where('id_teknisi', $idTeknisi);
             $totalTiketTeknisi = $applyDateFilter($totalTiketTeknisiQuery)->countAllResults();
 
-            $doneTeknisiQuery = new TicketModel();
-            $doneTeknisiQuery
-                ->where('id_teknisi', $idTeknisi)
-                ->where('status', 'done');
+            $doneTeknisiQuery = new \App\Models\TicketModel();
+            $doneTeknisiQuery->where('id_teknisi', $idTeknisi)->where('status', 'done');
             $doneTeknisi = $applyDateFilter($doneTeknisiQuery)->countAllResults();
 
-            $overdueAktifTeknisiQuery = new TicketModel();
-            $overdueAktifTeknisiQuery
-                ->where('id_teknisi', $idTeknisi)
-                ->where('status', 'overdue');
-            $overdueAktifTeknisi = $applyDateFilter($overdueAktifTeknisiQuery)->countAllResults();
+            $overdueTeknisiQuery = new \App\Models\TicketModel();
+            $overdueTeknisiQuery->where('id_teknisi', $idTeknisi)->where('status', 'overdue');
+            $overdueTeknisi = $applyDateFilter($overdueTeknisiQuery)->countAllResults();
 
-            $lateDoneTeknisiQuery = new TicketModel();
-            $lateDoneTeknisiQuery
-                ->where('id_teknisi', $idTeknisi)
-                ->where('status', 'done')
-                ->where('tanggal_selesai > deadline');
-            $lateDoneTeknisi = $applyDateFilter($lateDoneTeknisiQuery)->countAllResults();
-
-            $overdueTeknisi = $overdueAktifTeknisi + $lateDoneTeknisi;
-
-            $onTimeTeknisiQuery = new TicketModel();
+            $onTimeTeknisiQuery = new \App\Models\TicketModel();
             $onTimeTeknisiQuery
                 ->where('id_teknisi', $idTeknisi)
                 ->where('status', 'done')
                 ->where('tanggal_selesai <= deadline');
+
             $onTimeTeknisi = $applyDateFilter($onTimeTeknisiQuery)->countAllResults();
 
             $persenOnTimeTeknisi = $doneTeknisi > 0 ? ($onTimeTeknisi / $doneTeknisi) * 100 : 0;
@@ -642,17 +639,11 @@ class Dashboard extends BaseController
 
     public function downloadSlaReportPdf()
     {
-        date_default_timezone_set('Asia/Jakarta');
-
-        $this->updateOverdueTickets();
-
+        
         $check = $this->checkAdmin();
         if ($check) {
             return $check;
         }
-
-        $userModel   = new UserModel();
-        $ratingModel = new RatingModel();
 
         $startDate = $this->request->getGet('start_date');
         $endDate   = $this->request->getGet('end_date');
@@ -669,29 +660,30 @@ class Dashboard extends BaseController
             return $query;
         };
 
-        $totalTiket = $applyDateFilter(new TicketModel())
+        $ticketModel = new \App\Models\TicketModel();
+        $userModel   = new \App\Models\UserModel();
+        $ratingModel = new \App\Models\RatingModel();
+
+        $totalTiket = $applyDateFilter(new \App\Models\TicketModel())
             ->countAllResults();
 
-        $totalDone = $applyDateFilter(new TicketModel())
+        $totalDone = $applyDateFilter(new \App\Models\TicketModel())
             ->where('status', 'done')
             ->countAllResults();
 
-        $overdueAktif = $applyDateFilter(new TicketModel())
+        $totalOverdue = $applyDateFilter(new \App\Models\TicketModel())
             ->where('status', 'overdue')
             ->countAllResults();
 
-        $onTime = $applyDateFilter(new TicketModel())
+        $onTime = $applyDateFilter(new \App\Models\TicketModel())
             ->where('status', 'done')
             ->where('tanggal_selesai <= deadline')
             ->countAllResults();
 
-        $lateDone = $applyDateFilter(new TicketModel())
+        $lateDone = $applyDateFilter(new \App\Models\TicketModel())
             ->where('status', 'done')
             ->where('tanggal_selesai > deadline')
             ->countAllResults();
-
-        // Total overdue laporan = tiket masih overdue + tiket selesai melewati deadline.
-        $totalOverdue = $overdueAktif + $lateDone;
 
         $persenOnTime = $totalDone > 0 ? ($onTime / $totalDone) * 100 : 0;
         $persenLate   = $totalDone > 0 ? ($lateDone / $totalDone) * 100 : 0;
@@ -713,52 +705,40 @@ class Dashboard extends BaseController
         $totalRating = count($ratings);
         $totalNilai = 0;
 
-        foreach ($ratings as $rating) {
+            foreach ($ratings as $rating) {
             $totalNilai += $rating['nilai_rating'];
-        }
+            }
 
-        $rataRataRating = $totalRating > 0 ? $totalNilai / $totalRating : 0;
-        $kepuasanPersen = ($rataRataRating / 5) * 100;
+            $rataRataRating = $totalRating > 0 ? $totalNilai / $totalRating : 0;
+            $kepuasanPersen = ($rataRataRating / 5) * 100;
 
-        $teknisi = $userModel
-            ->where('role', 'teknisi')
-            ->findAll();
+            $teknisi = $userModel
+                ->where('role', 'teknisi')
+                ->findAll();
 
-        $performaTeknisi = [];
+            $performaTeknisi = [];
 
-        foreach ($teknisi as $t) {
+            foreach ($teknisi as $t) {
             $idTeknisi = $t['id_user'];
 
-            $totalTiketTeknisiQuery = new TicketModel();
+            $totalTiketTeknisiQuery = new \App\Models\TicketModel();
             $totalTiketTeknisiQuery->where('id_teknisi', $idTeknisi);
             $totalTiketTeknisi = $applyDateFilter($totalTiketTeknisiQuery)->countAllResults();
 
-            $doneTeknisiQuery = new TicketModel();
-            $doneTeknisiQuery
-                ->where('id_teknisi', $idTeknisi)
-                ->where('status', 'done');
+            $doneTeknisiQuery = new \App\Models\TicketModel();
+            $doneTeknisiQuery->where('id_teknisi', $idTeknisi)->where('status', 'done');
             $doneTeknisi = $applyDateFilter($doneTeknisiQuery)->countAllResults();
 
-            $overdueAktifTeknisiQuery = new TicketModel();
-            $overdueAktifTeknisiQuery
-                ->where('id_teknisi', $idTeknisi)
-                ->where('status', 'overdue');
-            $overdueAktifTeknisi = $applyDateFilter($overdueAktifTeknisiQuery)->countAllResults();
+            $overdueTeknisiQuery = new \App\Models\TicketModel();
+            $overdueTeknisiQuery->where('id_teknisi', $idTeknisi)->where('status', 'overdue');
+            $overdueTeknisi = $applyDateFilter($overdueTeknisiQuery)->countAllResults();
 
-            $lateDoneTeknisiQuery = new TicketModel();
-            $lateDoneTeknisiQuery
-                ->where('id_teknisi', $idTeknisi)
-                ->where('status', 'done')
-                ->where('tanggal_selesai > deadline');
-            $lateDoneTeknisi = $applyDateFilter($lateDoneTeknisiQuery)->countAllResults();
-
-            $overdueTeknisi = $overdueAktifTeknisi + $lateDoneTeknisi;
-
-            $onTimeTeknisiQuery = new TicketModel();
+            $onTimeTeknisiQuery = new \App\Models\TicketModel();
             $onTimeTeknisiQuery
                 ->where('id_teknisi', $idTeknisi)
                 ->where('status', 'done')
                 ->where('tanggal_selesai <= deadline');
+
             $onTimeTeknisi = $applyDateFilter($onTimeTeknisiQuery)->countAllResults();
 
             $persenOnTimeTeknisi = $doneTeknisi > 0 ? ($onTimeTeknisi / $doneTeknisi) * 100 : 0;
@@ -816,7 +796,7 @@ class Dashboard extends BaseController
             return $check;
         }
 
-        $userModel = new UserModel();
+        $userModel = new \App\Models\UserModel();
 
         $users = $userModel
             ->orderBy('id_user', 'DESC')
@@ -837,7 +817,7 @@ class Dashboard extends BaseController
             return $check;
         }
 
-        $userModel = new UserModel();
+        $userModel = new \App\Models\UserModel();
 
         $nama     = $this->request->getPost('nama');
         $email    = $this->request->getPost('email');
@@ -895,7 +875,7 @@ class Dashboard extends BaseController
             return $check;
         }
 
-        $userModel = new UserModel();
+        $userModel = new \App\Models\UserModel();
 
         $user = $userModel->find($id_user);
 
@@ -918,19 +898,19 @@ class Dashboard extends BaseController
             return $check;
         }
 
-        $userModel = new UserModel();
+        $userModel = new \App\Models\UserModel();
 
         $user = $userModel->find($id_user);
-
+        
         if (!$user) {
             return redirect()->to('/dashboard/users');
         }
 
-        $nama        = $this->request->getPost('nama');
-        $email       = $this->request->getPost('email');
-        $password    = $this->request->getPost('password');
-        $role        = $this->request->getPost('role');
-        $status_user = $this->request->getPost('status_user');
+        $nama           = $this->request->getPost('nama');
+        $email          = $this->request->getPost('email');
+        $password       = $this->request->getPost('password');
+        $role           = $this->request->getPost('role');
+        $status_user    = $this->request->getPost('status_user');
 
         if (!$nama || !$email || !$role || !$status_user) {
             return redirect()->to('/dashboard/users/edit/' . $id_user);
@@ -963,6 +943,8 @@ class Dashboard extends BaseController
             'status_user' => $status_user
         ];
 
+        // Password boleh dikosongkan.
+        // Kalau diisi, password akan diganti.
         if (!empty($password)) {
             $dataUpdate['password'] = password_hash($password, PASSWORD_DEFAULT);
         }
@@ -979,7 +961,7 @@ class Dashboard extends BaseController
             return $check;
         }
 
-        $userModel = new UserModel();
+        $userModel = new \App\Models\UserModel();
 
         $user = $userModel->find($id_user);
 
@@ -987,6 +969,7 @@ class Dashboard extends BaseController
             return redirect()->to('/dashboard/users');
         }
 
+        // Mencegah admin menghapus akun sendiri
         if ($id_user == session()->get('id_user')) {
             return redirect()->to('/dashboard/users');
         }
@@ -995,7 +978,7 @@ class Dashboard extends BaseController
 
         return redirect()->to('/dashboard/users');
     }
-
+    
     public function toggleUserStatus($id_user)
     {
         $check = $this->checkAdmin();
@@ -1003,7 +986,7 @@ class Dashboard extends BaseController
             return $check;
         }
 
-        $userModel = new UserModel();
+        $userModel = new \App\Models\UserModel();
 
         $user = $userModel->find($id_user);
 
@@ -1011,6 +994,7 @@ class Dashboard extends BaseController
             return redirect()->to('/dashboard/users');
         }
 
+        // Admin tidak boleh menonaktifkan akun sendiri
         if ($id_user == session()->get('id_user')) {
             return redirect()->to('/dashboard/users');
         }

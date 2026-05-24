@@ -392,26 +392,23 @@
                             
                             <!-- Inline Form Pembaruan Cepat Status Operasional -->
                             <td>
-                                <?php if ($t['status'] === 'done') : ?>
-
-                                    <span class="badge-status done">
-                                        SELESAI
-                                    </span>
-
-                                <?php else : ?>
-
+                                <?php if ($t['status'] !== 'done') : ?>
                                     <form action="/dashboard/tickets/update-status/<?= esc($t['id_tiket']) ?>" method="post" class="inline-update-form">
                                         <select name="status" class="select-table-inline">
                                             <option value="open" <?= $t['status'] == 'open' ? 'selected' : '' ?>>Open</option>
                                             <option value="in_progress" <?= $t['status'] == 'in_progress' ? 'selected' : '' ?>>In Progress</option>
-                                            <option value="done">Done</option>
+                                            <option value="done" <?= $t['status'] == 'done' ? 'selected' : '' ?>>Done</option>
                                         </select>
-
                                         <button type="submit" class="btn-table-save" title="Simpan Status">
                                             <i class="uil uil-check"></i>
                                         </button>
                                     </form>
-
+                                <?php else : ?>
+                                    <span class="badge-status done">
+                                        SELESAI
+                                    </span>
+                                <?php if ($ticket['status'] == 'overdue'): ?>
+    <span class="badge bg-danger">Overdue</span>
                                 <?php endif; ?>
                             </td>
                             

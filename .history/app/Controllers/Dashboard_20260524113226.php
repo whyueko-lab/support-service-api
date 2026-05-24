@@ -608,8 +608,7 @@ class Dashboard extends BaseController
 
             $performaTeknisi[] = [
                 'id_teknisi' => $idTeknisi,
-                'nama_teknisi' => $t['nama'],
-                'email' => $t['email'],
+                'nama_teknisi' => $t['nama']
                 'total_tiket' => $totalTiketTeknisi,
                 'done' => $doneTeknisi,
                 'overdue' => $overdueTeknisi,

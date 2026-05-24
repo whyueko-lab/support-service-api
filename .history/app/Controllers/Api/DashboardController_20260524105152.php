@@ -17,7 +17,7 @@ class DashboardController extends BaseController
 
         $ticketModel
             ->whereIn('status', ['open', 'in_progress'])
-            ->where('tanggal_selesai', null)
+            ->where('tanggal_selesai IS NULL')
             ->where('deadline <', $now)
             ->set([
                 'status' => 'overdue',

@@ -198,6 +198,13 @@
     <p>Perbarui rincian profil, hak akses sistem, atau status manajemen user terpilih.</p>
 
     <!-- Banner Info tentang Password -->
+    <div class="info-banner">
+        <i class="uil uil-info-circle"></i>
+        <div>
+            Biarkan field <strong>Password Baru</strong> kosong jika Anda tidak berniat mengubah kata sandi lama user ini.
+        </div>
+    </div>
+
     <form action="/dashboard/users/update/<?= esc($user['id_user']) ?>" method="post">
         <div class="form-grid">
             
