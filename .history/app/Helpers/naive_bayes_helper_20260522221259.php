@@ -13,7 +13,7 @@ if (!function_exists('klasifikasiNaiveBayes')) {
         $text = trim($text);
 
         // =========================
-        // 2. Normalisasi Kata Tidak Baku
+        // 2. Normalisasi kata tidak baku
         // =========================
         $slang = [
             'lemot'  => 'lambat',
@@ -23,24 +23,20 @@ if (!function_exists('klasifikasiNaiveBayes')) {
             'ga'     => 'tidak',
             'gk'     => 'tidak',
             'net'    => 'internet',
-            'komp'   => 'komputer',
-            'pc'     => 'komputer',
-            'wifi'   => 'wifi',
-            'wifie'  => 'wifi'
+            'komp'   => 'komputer'
         ];
 
         foreach ($slang as $slangWord => $correctWord) {
             $text = str_replace($slangWord, $correctWord, $text);
         }
 
-        // Pecah kalimat input menjadi kata
+        // Pecah kalimat menjadi kata
         $words = explode(' ', $text);
 
         // =========================
         // 3. Dataset Training Sederhana
         // =========================
         $trainingData = [
-            // Kategori Jaringan
             [
                 'text' => 'internet tidak bisa koneksi wifi lambat jaringan putus',
                 'kategori' => 'jaringan',
@@ -52,17 +48,10 @@ if (!function_exists('klasifikasiNaiveBayes')) {
                 'prioritas' => 'high'
             ],
             [
-                'text' => 'koneksi jaringan kantor sering terputus internet mati',
+                'text' => 'koneksi jaringan kantor sering terputus',
                 'kategori' => 'jaringan',
                 'prioritas' => 'high'
             ],
-            [
-                'text' => 'wifi tidak tersambung koneksi internet gagal',
-                'kategori' => 'jaringan',
-                'prioritas' => 'high'
-            ],
-
-            // Kategori Hardware
             [
                 'text' => 'printer tidak bisa mencetak kertas macet',
                 'kategori' => 'hardware',
@@ -79,13 +68,6 @@ if (!function_exists('klasifikasiNaiveBayes')) {
                 'prioritas' => 'medium'
             ],
             [
-                'text' => 'komputer tidak menyala printer rusak hardware bermasalah',
-                'kategori' => 'hardware',
-                'prioritas' => 'medium'
-            ],
-
-            // Kategori Software
-            [
                 'text' => 'aplikasi error tidak bisa login password salah',
                 'kategori' => 'software',
                 'prioritas' => 'medium'
@@ -101,13 +83,6 @@ if (!function_exists('klasifikasiNaiveBayes')) {
                 'prioritas' => 'medium'
             ],
             [
-                'text' => 'login gagal aplikasi tidak bisa dibuka sistem error',
-                'kategori' => 'software',
-                'prioritas' => 'medium'
-            ],
-
-            // Kategori Umum
-            [
                 'text' => 'permintaan bantuan informasi layanan',
                 'kategori' => 'umum',
                 'prioritas' => 'low'
@@ -122,15 +97,10 @@ if (!function_exists('klasifikasiNaiveBayes')) {
                 'kategori' => 'umum',
                 'prioritas' => 'low'
             ],
-            [
-                'text' => 'ingin bertanya informasi layanan support',
-                'kategori' => 'umum',
-                'prioritas' => 'low'
-            ],
         ];
 
         // =========================
-        // 4. Inisialisasi Perhitungan
+        // 4. Hitung jumlah dokumen per kategori
         // =========================
         $categoryCount = [];
         $wordCountPerCategory = [];
@@ -139,9 +109,6 @@ if (!function_exists('klasifikasiNaiveBayes')) {
 
         $totalDocuments = count($trainingData);
 
-        // =========================
-        // 5. Training Naive Bayes
-        // =========================
         foreach ($trainingData as $data) {
             $kategori = $data['kategori'];
 
@@ -179,7 +146,7 @@ if (!function_exists('klasifikasiNaiveBayes')) {
         $vocabSize = count($vocabulary);
 
         // =========================
-        // 6. Hitung Probabilitas Naive Bayes
+        // 5. Hitung probabilitas Naive Bayes
         // =========================
         $result = [];
 
@@ -187,7 +154,7 @@ if (!function_exists('klasifikasiNaiveBayes')) {
             // Prior Probability: P(kategori)
             $prior = $jumlahDokumenKategori / $totalDocuments;
 
-            // Menggunakan log probability agar perhitungan stabil
+            // Pakai log agar angka tidak terlalu kecil
             $logProbability = log($prior);
 
             foreach ($words as $word) {
@@ -204,39 +171,24 @@ if (!function_exists('klasifikasiNaiveBayes')) {
                 $logProbability += log($likelihood);
             }
 
-            $result[] = [
+            $result[$kategori] = [
                 'kategori' => $kategori,
-                'log_score' => $logProbability
+                'score' => $logProbability
             ];
         }
 
         // =========================
-        // 7. Urutkan Berdasarkan Score Tertinggi
+        // 6. Urutkan berdasarkan score tertinggi
         // =========================
         usort($result, function ($a, $b) {
-            return $b['log_score'] <=> $a['log_score'];
+            return $b['score'] <=> $a['score'];
         });
 
         $kategoriTerpilih = $result[0]['kategori'];
-        $scoreTerpilih = $result[0]['log_score'];
+        $scoreTerpilih = $result[0]['score'];
 
         // =========================
-        // 8. Konversi Log Score Menjadi Persentase
-        // =========================
-        // Teknik ini mirip softmax sederhana.
-        // Tujuannya agar score lebih enak dibaca, misalnya 87.52%.
-        $maxScore = $result[0]['log_score'];
-        $totalExp = 0;
-
-        foreach ($result as $item) {
-            $totalExp += exp($item['log_score'] - $maxScore);
-        }
-
-        $confidence = exp($scoreTerpilih - $maxScore) / $totalExp;
-        $confidencePercent = round($confidence * 100, 2);
-
-        // =========================
-        // 9. Tentukan Prioritas
+        // 7. Tentukan prioritas berdasarkan kategori
         // =========================
         $priorityMap = [
             'jaringan' => 'high',
@@ -248,7 +200,7 @@ if (!function_exists('klasifikasiNaiveBayes')) {
         return [
             'kategori' => $kategoriTerpilih,
             'prioritas' => $priorityMap[$kategoriTerpilih] ?? 'low',
-            'score' => $confidencePercent
+            'score' => $scoreTerpilih
         ];
     }
 }
