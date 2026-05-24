@@ -131,43 +131,6 @@ if (!function_exists('klasifikasiNaiveBayes')) {
                 'kategori' => 'server',
                 'prioritas' => 'high'
             ],
-            [
-                'text' => 'server monitoring tidak menampilkan data perangkat lapangan',
-                'kategori' => 'server',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'database server penuh menyebabkan aplikasi lambat',
-                'kategori' => 'server',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'service monitoring server berhenti dan perlu restart',
-                'kategori' => 'server',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'akses rdp server gagal dari jaringan kantor',
-                'kategori' => 'server',
-                'prioritas' => 'medium'
-            ],
-
-            // Tambahan Kategori Internet
-            [
-                'text' => 'internet mobil operasional tidak stabil saat digunakan',
-                'kategori' => 'internet',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'koneksi internet ke server pusat sering timeout',
-                'kategori' => 'internet',
-                'prioritas' => 'medium'
-            ],
-            [
-                'text' => 'router gateway tidak mendapatkan koneksi dari provider',
-                'kategori' => 'internet',
-                'prioritas' => 'high'
-            ],
 
             // =========================
             // Kategori Internet
@@ -300,21 +263,6 @@ if (!function_exists('klasifikasiNaiveBayes')) {
                 'kategori' => 'cctv',
                 'prioritas' => 'medium'
             ],
-            [
-                'text' => 'kamera cctv kendaraan tidak tampil di aplikasi monitoring',
-                'kategori' => 'cctv',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'rekaman cctv mobil tidak tersimpan di storage',
-                'kategori' => 'cctv',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'kamera cctv offline setelah perangkat jaringan restart',
-                'kategori' => 'cctv',
-                'prioritas' => 'medium'
-            ],
 
             // =========================
             // Kategori Perangkat BTS / Lab Seluler
@@ -400,57 +348,57 @@ if (!function_exists('klasifikasiNaiveBayes')) {
                 'prioritas' => 'medium'
             ],
             [
-                'text' => 'bts 2g di mobil tidak transmit setelah perangkat dinyalakan',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'bts 4g tidak aktif modul perangkat tidak terbaca',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'perangkat bts mobile gagal transmit saat operasional lapangan',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'bts kendaraan tidak keluar signal perlu pengecekan teknisi',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'perangkat bts multirat tidak sinkron dengan sistem monitoring',
-                'kategori' => 'perangkat_bts',
-                'prioritas' => 'high'
-            ],
+    'text' => 'bts 2g di mobil tidak transmit setelah perangkat dinyalakan',
+    'kategori' => 'perangkat_bts',
+    'prioritas' => 'high'
+],
+[
+    'text' => 'bts 4g tidak aktif modul perangkat tidak terbaca',
+    'kategori' => 'perangkat_bts',
+    'prioritas' => 'high'
+],
+[
+    'text' => 'perangkat bts mobile gagal transmit saat operasional lapangan',
+    'kategori' => 'perangkat_bts',
+    'prioritas' => 'high'
+],
+[
+    'text' => 'bts kendaraan tidak keluar signal perlu pengecekan teknisi',
+    'kategori' => 'perangkat_bts',
+    'prioritas' => 'high'
+],
+[
+    'text' => 'perangkat bts multirat tidak sinkron dengan sistem monitoring',
+    'kategori' => 'perangkat_bts',
+    'prioritas' => 'high'
+],
 
-            // Tambahan Kategori Perangkat RF
-            [
-                'text' => 'perangkat rf hunter tidak mendeteksi signal di dashboard',
-                'kategori' => 'perangkat_rf',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'perangkat rf monitoring offline setelah restart sistem',
-                'kategori' => 'perangkat_rf',
-                'prioritas' => 'medium'
-            ],
-            [
-                'text' => 'modul rf tidak stabil hasil monitoring berubah ubah',
-                'kategori' => 'perangkat_rf',
-                'prioritas' => 'medium'
-            ],
-            [
-                'text' => 'data perangkat rf tidak masuk ke aplikasi pusat',
-                'kategori' => 'perangkat_rf',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'perangkat disruptor internal tidak tampil pada dashboard monitoring',
-                'kategori' => 'perangkat_rf',
-                'prioritas' => 'high'
-            ],
+// Tambahan Kategori Perangkat RF
+[
+    'text' => 'perangkat rf hunter tidak mendeteksi signal di dashboard',
+    'kategori' => 'perangkat_rf',
+    'prioritas' => 'high'
+],
+[
+    'text' => 'perangkat rf monitoring offline setelah restart sistem',
+    'kategori' => 'perangkat_rf',
+    'prioritas' => 'medium'
+],
+[
+    'text' => 'modul rf tidak stabil hasil monitoring berubah ubah',
+    'kategori' => 'perangkat_rf',
+    'prioritas' => 'medium'
+],
+[
+    'text' => 'data perangkat rf tidak masuk ke aplikasi pusat',
+    'kategori' => 'perangkat_rf',
+    'prioritas' => 'high'
+],
+[
+    'text' => 'perangkat disruptor internal tidak tampil pada dashboard monitoring',
+    'kategori' => 'perangkat_rf',
+    'prioritas' => 'high'
+],
 
             // =========================
             // Kategori Perangkat RF / Monitoring

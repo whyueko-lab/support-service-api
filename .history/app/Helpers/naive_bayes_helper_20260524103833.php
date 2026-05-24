@@ -300,21 +300,6 @@ if (!function_exists('klasifikasiNaiveBayes')) {
                 'kategori' => 'cctv',
                 'prioritas' => 'medium'
             ],
-            [
-                'text' => 'kamera cctv kendaraan tidak tampil di aplikasi monitoring',
-                'kategori' => 'cctv',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'rekaman cctv mobil tidak tersimpan di storage',
-                'kategori' => 'cctv',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'kamera cctv offline setelah perangkat jaringan restart',
-                'kategori' => 'cctv',
-                'prioritas' => 'medium'
-            ],
 
             // =========================
             // Kategori Perangkat BTS / Lab Seluler

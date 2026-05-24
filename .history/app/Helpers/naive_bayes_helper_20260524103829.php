@@ -132,42 +132,42 @@ if (!function_exists('klasifikasiNaiveBayes')) {
                 'prioritas' => 'high'
             ],
             [
-                'text' => 'server monitoring tidak menampilkan data perangkat lapangan',
-                'kategori' => 'server',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'database server penuh menyebabkan aplikasi lambat',
-                'kategori' => 'server',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'service monitoring server berhenti dan perlu restart',
-                'kategori' => 'server',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'akses rdp server gagal dari jaringan kantor',
-                'kategori' => 'server',
-                'prioritas' => 'medium'
-            ],
+    'text' => 'server monitoring tidak menampilkan data perangkat lapangan',
+    'kategori' => 'server',
+    'prioritas' => 'high'
+],
+[
+    'text' => 'database server penuh menyebabkan aplikasi lambat',
+    'kategori' => 'server',
+    'prioritas' => 'high'
+],
+[
+    'text' => 'service monitoring server berhenti dan perlu restart',
+    'kategori' => 'server',
+    'prioritas' => 'high'
+],
+[
+    'text' => 'akses rdp server gagal dari jaringan kantor',
+    'kategori' => 'server',
+    'prioritas' => 'medium'
+],
 
-            // Tambahan Kategori Internet
-            [
-                'text' => 'internet mobil operasional tidak stabil saat digunakan',
-                'kategori' => 'internet',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'koneksi internet ke server pusat sering timeout',
-                'kategori' => 'internet',
-                'prioritas' => 'medium'
-            ],
-            [
-                'text' => 'router gateway tidak mendapatkan koneksi dari provider',
-                'kategori' => 'internet',
-                'prioritas' => 'high'
-            ],
+// Tambahan Kategori Internet
+[
+    'text' => 'internet mobil operasional tidak stabil saat digunakan',
+    'kategori' => 'internet',
+    'prioritas' => 'high'
+],
+[
+    'text' => 'koneksi internet ke server pusat sering timeout',
+    'kategori' => 'internet',
+    'prioritas' => 'medium'
+],
+[
+    'text' => 'router gateway tidak mendapatkan koneksi dari provider',
+    'kategori' => 'internet',
+    'prioritas' => 'high'
+],
 
             // =========================
             // Kategori Internet
@@ -297,21 +297,6 @@ if (!function_exists('klasifikasiNaiveBayes')) {
             ],
             [
                 'text' => 'akses live view cctv gagal dari aplikasi',
-                'kategori' => 'cctv',
-                'prioritas' => 'medium'
-            ],
-            [
-                'text' => 'kamera cctv kendaraan tidak tampil di aplikasi monitoring',
-                'kategori' => 'cctv',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'rekaman cctv mobil tidak tersimpan di storage',
-                'kategori' => 'cctv',
-                'prioritas' => 'high'
-            ],
-            [
-                'text' => 'kamera cctv offline setelah perangkat jaringan restart',
                 'kategori' => 'cctv',
                 'prioritas' => 'medium'
             ],
