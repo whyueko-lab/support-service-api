@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?? 'Support Service Dashboard' ?></title>
@@ -22,8 +21,8 @@
         }
 
         body {
-            background: #519ae2ff;
-            color: #3e4170ff;
+            background: #f8fafc;
+            color: #0f172a;
             min-height: 100vh;
         }
 
@@ -35,7 +34,7 @@
         /* --- SIDEBAR STYLE (MODERN DARK) --- */
         .sidebar {
             width: 270px;
-            background: #0d241eff;
+            background: #0f172a;
             color: #f8fafc;
             padding: 28px 20px;
             position: fixed;
@@ -56,46 +55,15 @@
         }
 
         .brand-icon {
-            width: 38px;
-            height: 38px;
-            background: white;
-            border-radius: 10px;
-            padding: 5px;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-        }
-
-        .brand-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-
-        .sidebar-brand.logo-center {
-            justify-content: center;
-            width: 100%;
-            margin-bottom: 16px;
-        }
-
-        .sidebar-brand.logo-center .brand-icon {
-            width: 100px;
-            height: 100px;
-            background: transparent;
-            padding: 0;
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sidebar-brand.logo-center .brand-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
+            color: white;
+            font-size: 16px;
         }
 
         .sidebar h2 {
@@ -108,13 +76,11 @@
         }
 
         .sidebar .system-tag {
-            font-size: 16px;
-            color: #ffffffff;
+            font-size: 12px;
+            color: #64748b;
             margin-bottom: 32px;
-            padding-left: 0;
-            font-weight: 600;
-            text-align: center;
-            line-height: 1.4;
+            padding-left: 44px;
+            font-weight: 500;
         }
 
         .menu {
@@ -168,7 +134,7 @@
 
         /* --- TOPBAR STYLE --- */
         .topbar {
-            background: rgba(190, 198, 224, 0.8);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             padding: 20px 40px;
@@ -184,12 +150,12 @@
         .topbar h3 {
             font-size: 22px;
             font-weight: 700;
-            color: #111116ff;
+            color: #0f172a;
             letter-spacing: -0.5px;
         }
 
         .topbar small {
-            color: #061ef8ff;
+            color: #64748b;
             font-size: 13px;
             margin-top: 2px;
             display: inline-block;
@@ -213,7 +179,7 @@
         }
 
         .user-info .email {
-            color: #0717f0ff;
+            color: #64748b;
             font-size: 12px;
         }
 
@@ -244,105 +210,104 @@
 
         /* --- TEMPLATE GLOBAL UNTUK KOMPONEN ISI --- */
         .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 22px;
-            margin-bottom: 32px;
-        }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 22px;
+    margin-bottom: 32px;
+}
 
-        .card {
-            position: relative;
-            overflow: hidden;
-            border-radius: 20px;
-            padding: 26px 24px;
-            border: none;
-            color: white;
-            background: linear-gradient(135deg, #334155 0%, #0f172a 100%);
-            box-shadow: 0 18px 35px rgba(15, 23, 42, 0.14);
-            transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
-        }
+.card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    padding: 26px 24px;
+    border: none;
+    color: white;
+    box-shadow: 0 18px 35px rgba(15, 23, 42, 0.14);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
 
-        /* Efek ornamen bulat di dalam card */
-        .card::before {
-            content: "";
-            position: absolute;
-            width: 130px;
-            height: 130px;
-            right: -38px;
-            top: -42px;
-            background: rgba(255, 255, 255, 0.16);
-            border-radius: 50%;
-        }
+/* Efek ornamen bulat di dalam card */
+.card::before {
+    content: "";
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    right: -38px;
+    top: -42px;
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 50%;
+}
 
-        .card::after {
-            content: "";
-            position: absolute;
-            width: 85px;
-            height: 85px;
-            right: 28px;
-            bottom: -38px;
-            background: rgba(255, 255, 255, 0.10);
-            border-radius: 50%;
-        }
+.card::after {
+    content: "";
+    position: absolute;
+    width: 85px;
+    height: 85px;
+    right: 28px;
+    bottom: -38px;
+    background: rgba(255, 255, 255, 0.10);
+    border-radius: 50%;
+}
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 24px 45px rgba(15, 23, 42, 0.22);
-            filter: brightness(1.04);
-        }
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 24px 45px rgba(15, 23, 42, 0.22);
+    filter: brightness(1.04);
+}
 
-        .card h4 {
-            position: relative;
-            z-index: 2;
-            color: rgba(255, 255, 255, 0.88);
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-        }
+.card h4 {
+    position: relative;
+    z-index: 2;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
 
-        .card .number {
-            position: relative;
-            z-index: 2;
-            margin-top: 14px;
-            font-size: 36px;
-            font-weight: 800;
-            color: #ffffff;
-            letter-spacing: -0.8px;
-        }
+.card .number {
+    position: relative;
+    z-index: 2;
+    margin-top: 14px;
+    font-size: 36px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.8px;
+}
 
-        /* Warna otomatis tiap card berdasarkan urutan */
-        .cards .card:nth-child(1) {
-            background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%);
-        }
+/* Warna otomatis tiap card berdasarkan urutan */
+.cards .card:nth-child(1) {
+    background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%);
+}
 
-        .cards .card:nth-child(2) {
-            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
-        }
+.cards .card:nth-child(2) {
+    background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+}
 
-        .cards .card:nth-child(3) {
-            background: linear-gradient(135deg, #f97316 0%, #f59e0b 100%);
-        }
+.cards .card:nth-child(3) {
+    background: linear-gradient(135deg, #f97316 0%, #f59e0b 100%);
+}
 
-        .cards .card:nth-child(4) {
-            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
-        }
+.cards .card:nth-child(4) {
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+}
 
-        .cards .card:nth-child(5) {
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-        }
+.cards .card:nth-child(5) {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+}
 
-        .cards .card:nth-child(6) {
-            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-        }
+.cards .card:nth-child(6) {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+}
 
-        .cards .card:nth-child(7) {
-            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
-        }
+.cards .card:nth-child(7) {
+    background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+}
 
-        .cards .card:nth-child(8) {
-            background: linear-gradient(135deg, #be123c 0%, #f43f5e 100%);
-        }
+.cards .card:nth-child(8) {
+    background: linear-gradient(135deg, #be123c 0%, #f43f5e 100%);
+}
 
         /* Desain Tabel Modern */
         .section {
@@ -350,7 +315,7 @@
             border-radius: 16px;
             padding: 24px;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(223, 119, 119, 0.02);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
             margin-bottom: 30px;
         }
 
@@ -363,18 +328,18 @@
 
         table th {
             background: #f8fafc;
-            color: #066bf8ff;
+            color: #475569;
             font-weight: 600;
             text-transform: uppercase;
             font-size: 12px;
             letter-spacing: 0.5px;
             padding: 14px 16px;
-            border-bottom: 2px solid #24ddddff;
+            border-bottom: 2px solid #e2e8f0;
         }
 
         table td {
             padding: 16px;
-            border-bottom: 1px solid #59a1adff;
+            border-bottom: 1px solid #f1f5f9;
             color: #334155;
         }
 
@@ -459,12 +424,13 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-        <div class="sidebar-brand logo-center">
+        <div class="sidebar-brand">
             <div class="brand-icon">
-                <img src="/assets/img/logo_bkk.png" alt="Logo Sistem">
+                <i class="uil uil-bolt"></i>
             </div>
+            <h2>Support Service</h2>
         </div>
-        <div class="system-tag">Inteligent Smart Ticketing System</div>
+        <div class="system-tag">Android Ticketing</div>
 
         <nav class="menu">
             <!-- 1. Dashboard -->

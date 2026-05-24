@@ -39,8 +39,9 @@
         }
 
         .login-card {
-            background: rgba(172, 210, 247, 0.85);
-            backdrop-filter: blur(0px);
+            background: rgba(91, 163, 231, 0.85);
+            /* Efek blur kaca (Glassmorphism) tren UI modern */
+            backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             width: 100%;
             max-width: 440px;
@@ -162,7 +163,7 @@
             border-radius: 14px;
             font-size: 14px;
             color: #0f172a;
-            background-color: rgba(248, 250, 252, 0.56);
+            background-color: rgba(248, 250, 252, 0.8);
             outline: none;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -246,10 +247,10 @@
 
         .info {
             margin-top: 36px;
-            border-top: 1px solid rgba(255, 255, 255, 1);
+            border-top: 1px solid rgba(226, 232, 240, 0.6);
             padding-top: 20px;
             font-size: 12px;
-            color: #030303ff;
+            color: #94a3b8;
             text-align: center;
             line-height: 1.6;
         }

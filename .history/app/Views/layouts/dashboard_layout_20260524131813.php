@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?? 'Support Service Dashboard' ?></title>
@@ -369,12 +368,12 @@
             font-size: 12px;
             letter-spacing: 0.5px;
             padding: 14px 16px;
-            border-bottom: 2px solid #24ddddff;
+            border-bottom: 2px solid #e2e8f0;
         }
 
         table td {
             padding: 16px;
-            border-bottom: 1px solid #59a1adff;
+            border-bottom: 1px solid #f1f5f9;
             color: #334155;
         }
 

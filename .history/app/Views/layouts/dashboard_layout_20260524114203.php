@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?? 'Support Service Dashboard' ?></title>
@@ -22,8 +21,8 @@
         }
 
         body {
-            background: #519ae2ff;
-            color: #3e4170ff;
+            background: #f8fafc;
+            color: #0f172a;
             min-height: 100vh;
         }
 
@@ -35,7 +34,7 @@
         /* --- SIDEBAR STYLE (MODERN DARK) --- */
         .sidebar {
             width: 270px;
-            background: #0d241eff;
+            background: #0f172a;
             color: #f8fafc;
             padding: 28px 20px;
             position: fixed;
@@ -56,46 +55,15 @@
         }
 
         .brand-icon {
-            width: 38px;
-            height: 38px;
-            background: white;
-            border-radius: 10px;
-            padding: 5px;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-        }
-
-        .brand-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-
-        .sidebar-brand.logo-center {
-            justify-content: center;
-            width: 100%;
-            margin-bottom: 16px;
-        }
-
-        .sidebar-brand.logo-center .brand-icon {
-            width: 100px;
-            height: 100px;
-            background: transparent;
-            padding: 0;
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sidebar-brand.logo-center .brand-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
+            color: white;
+            font-size: 16px;
         }
 
         .sidebar h2 {
@@ -108,13 +76,11 @@
         }
 
         .sidebar .system-tag {
-            font-size: 16px;
-            color: #ffffffff;
+            font-size: 12px;
+            color: #64748b;
             margin-bottom: 32px;
-            padding-left: 0;
-            font-weight: 600;
-            text-align: center;
-            line-height: 1.4;
+            padding-left: 44px;
+            font-weight: 500;
         }
 
         .menu {
@@ -168,7 +134,7 @@
 
         /* --- TOPBAR STYLE --- */
         .topbar {
-            background: rgba(190, 198, 224, 0.8);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             padding: 20px 40px;
@@ -184,12 +150,12 @@
         .topbar h3 {
             font-size: 22px;
             font-weight: 700;
-            color: #111116ff;
+            color: #0f172a;
             letter-spacing: -0.5px;
         }
 
         .topbar small {
-            color: #061ef8ff;
+            color: #64748b;
             font-size: 13px;
             margin-top: 2px;
             display: inline-block;
@@ -213,7 +179,7 @@
         }
 
         .user-info .email {
-            color: #0717f0ff;
+            color: #64748b;
             font-size: 12px;
         }
 
@@ -350,7 +316,7 @@
             border-radius: 16px;
             padding: 24px;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(223, 119, 119, 0.02);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
             margin-bottom: 30px;
         }
 
@@ -363,18 +329,18 @@
 
         table th {
             background: #f8fafc;
-            color: #066bf8ff;
+            color: #475569;
             font-weight: 600;
             text-transform: uppercase;
             font-size: 12px;
             letter-spacing: 0.5px;
             padding: 14px 16px;
-            border-bottom: 2px solid #24ddddff;
+            border-bottom: 2px solid #e2e8f0;
         }
 
         table td {
             padding: 16px;
-            border-bottom: 1px solid #59a1adff;
+            border-bottom: 1px solid #f1f5f9;
             color: #334155;
         }
 
@@ -459,12 +425,13 @@
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-        <div class="sidebar-brand logo-center">
+        <div class="sidebar-brand">
             <div class="brand-icon">
-                <img src="/assets/img/logo_bkk.png" alt="Logo Sistem">
+                <i class="uil uil-bolt"></i>
             </div>
+            <h2>Support Service</h2>
         </div>
-        <div class="system-tag">Inteligent Smart Ticketing System</div>
+        <div class="system-tag">Smart Ticketing System</div>
 
         <nav class="menu">
             <!-- 1. Dashboard -->

@@ -113,39 +113,6 @@
 <!-- CDN Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- KELOMPOK GRAFIK DASHBOARD -->
-<div class="dashboard-chart-grid">
-
-    <!-- Grafik Status Tiket -->
-    <div class="section chart-card" style="margin-bottom: 0;">
-        <div class="chart-title-row">
-            <h3 style="margin-bottom: 0;">Grafik Status Tiket</h3>
-            <span class="chart-badge">Real-Time Summary</span>
-        </div>
-
-        <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">
-            Komposisi tiket berdasarkan status open, progress, selesai, dan overdue.
-        </p>
-
-        <canvas id="statusChart"></canvas>
-    </div>
-
-    <!-- Grafik Performa Tiket -->
-    <div class="section chart-card" style="margin-bottom: 0;">
-        <div class="chart-title-row">
-            <h3 style="margin-bottom: 0;">Grafik Performa Tiket</h3>
-            <span class="chart-badge">Operational KPI</span>
-        </div>
-
-        <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">
-            Perbandingan jumlah tiket aktif, selesai, dan terlambat.
-        </p>
-
-        <canvas id="ticketBarChart"></canvas>
-    </div>
-
-</div>
-
 <!-- KELOMPOK 1: UTAMA & STATUS TIKET -->
 <h2 style="
     font-size: 16px; 

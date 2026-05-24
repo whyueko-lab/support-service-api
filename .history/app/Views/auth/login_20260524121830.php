@@ -249,7 +249,7 @@
             border-top: 1px solid rgba(255, 255, 255, 1);
             padding-top: 20px;
             font-size: 12px;
-            color: #030303ff;
+            color: #94a3b8;
             text-align: center;
             line-height: 1.6;
         }

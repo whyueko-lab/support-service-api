@@ -39,8 +39,9 @@
         }
 
         .login-card {
-            background: rgba(172, 210, 247, 0.85);
-            backdrop-filter: blur(0px);
+            background: rgba(255, 255, 255, 0.85);
+            /* Efek blur kaca (Glassmorphism) tren UI modern */
+            backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             width: 100%;
             max-width: 440px;
@@ -73,23 +74,16 @@
 
         /* Desain logo placeholder berbentuk lingkaran estetik */
         .brand-logo {
-            width: 120px;
-            height: 120px;
-            background: transparent;
-            border-radius: 16px;
-            margin: 0 auto 18px;
-            padding: 0;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            border-radius: 14px;
+            margin: 0 auto 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-        }
-
-        .brand-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
+            color: white;
+            box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25);
         }
 
         .login-card h2 {
@@ -162,7 +156,7 @@
             border-radius: 14px;
             font-size: 14px;
             color: #0f172a;
-            background-color: rgba(248, 250, 252, 0.56);
+            background-color: rgba(248, 250, 252, 0.8);
             outline: none;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -246,10 +240,10 @@
 
         .info {
             margin-top: 36px;
-            border-top: 1px solid rgba(255, 255, 255, 1);
+            border-top: 1px solid rgba(226, 232, 240, 0.6);
             padding-top: 20px;
             font-size: 12px;
-            color: #030303ff;
+            color: #94a3b8;
             text-align: center;
             line-height: 1.6;
         }
@@ -261,9 +255,10 @@
     <div class="login-card">
         <div class="brand-header">
             <div class="brand-logo">
-                <img src="/assets/img/logo_bkk.png" alt="Logo Support Service">
+                <
             </div>
             <h2>Smart Ticketing System</h2>
+            <p>Masuk ke dashboard Support Service</p>
         </div>
 
         <?php if (session()->getFlashdata('error')) : ?>

@@ -246,10 +246,10 @@
 
         .info {
             margin-top: 36px;
-            border-top: 1px solid rgba(255, 255, 255, 1);
+            border-top: 1px solid rgba(255, 255, 255, 0.6);
             padding-top: 20px;
             font-size: 12px;
-            color: #030303ff;
+            color: #94a3b8;
             text-align: center;
             line-height: 1.6;
         }

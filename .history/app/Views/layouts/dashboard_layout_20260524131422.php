@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?? 'Support Service Dashboard' ?></title>
@@ -313,7 +312,7 @@
 
         /* Warna otomatis tiap card berdasarkan urutan */
         .cards .card:nth-child(1) {
-            background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%);
+            background: linear-gradient(135deg, .div#4f46e5 0%, #2563eb 100%);
         }
 
         .cards .card:nth-child(2) {
@@ -350,7 +349,7 @@
             border-radius: 16px;
             padding: 24px;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(223, 119, 119, 0.02);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
             margin-bottom: 30px;
         }
 
@@ -363,18 +362,18 @@
 
         table th {
             background: #f8fafc;
-            color: #066bf8ff;
+            color: #475569;
             font-weight: 600;
             text-transform: uppercase;
             font-size: 12px;
             letter-spacing: 0.5px;
             padding: 14px 16px;
-            border-bottom: 2px solid #24ddddff;
+            border-bottom: 2px solid #e2e8f0;
         }
 
         table td {
             padding: 16px;
-            border-bottom: 1px solid #59a1adff;
+            border-bottom: 1px solid #f1f5f9;
             color: #334155;
         }
 
