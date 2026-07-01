@@ -1,0 +1,22 @@
+[
+  {
+    "text":"server down aplikasi tidak bisa diakses",
+    "kategori":"server"
+  },
+  {
+    "text":"mysql mati service tidak berjalan",
+    "kategori":"server"
+  },
+  {
+    "text":"cpu server tinggi",
+    "kategori":"server"
+  },
+  {
+    "text":"database penuh",
+    "kategori":"server"
+  },
+  {
+    "text":"backup gagal",
+    "kategori":"server"
+  }
+]

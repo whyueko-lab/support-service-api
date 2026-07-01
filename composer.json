@@ -12,7 +12,8 @@
     "require": {
         "php": "^8.2",
         "codeigniter4/framework": "^4.7",
-        "dompdf/dompdf": "^3.1"
+        "dompdf/dompdf": "^3.1",
+        "sastrawi/sastrawi": "^1.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",
