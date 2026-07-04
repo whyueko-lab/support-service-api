@@ -64,7 +64,6 @@ $routes->post('/dashboard/users/update/(:num)', 'Dashboard::updateUser/$1');
 $routes->get('/dashboard/users/delete/(:num)', 'Dashboard::deleteUser/$1');
 $routes->get('/dashboard/users/toggle-status/(:num)', 'Dashboard::toggleUserStatus/$1');
 $routes->get('api/tickets/(:num)', 'Api\TicketController::show/$1');
-$routes->get('dashboard/tickets/(:num)', 'Dashboard::show/$1');
 
 $routes->options('(:any)', static function () {
     return service('response')

@@ -399,33 +399,26 @@ class TicketController extends BaseController
     }
 
     public function show($id = null)
-    {
-        // 1. Validasi apakah parameter ID dikirim dan berupa angka
-        if ($id === null || !is_numeric($id)) {
-            return $this->response->setJSON([
-                'status'  => false,
-                'message' => 'ID tiket tidak valid atau tidak disertakan.'
-            ])->setStatusCode(400);
-        }
+{
+    // 1. Inisialisasi Model Tiket kamu
+    $ticketModel = new \App\Models\TicketModel(); 
 
-        $ticketModel = new TicketModel();
+    // 2. Cari data tiket berdasarkan ID utama (Primary Key)
+    $ticket = $ticketModel->find($id);
 
-        // 2. Ambil data tiket spesifik menggunakan fungsi find() bawaan CI4
-        $ticket = $ticketModel->find($id);
-
-        // 3. Jika tiket dengan ID tersebut tidak ada di database
-        if (!$ticket) {
-            return $this->response->setJSON([
-                'status'  => false,
-                'message' => 'Tiket dengan ID ' . $id . ' tidak ditemukan.'
-            ])->setStatusCode(404);
-        }
-
-        // 4. Jika ditemukan, kembalikan data spesifik tiket tersebut
+    // 3. Jika tiket tidak ditemukan di database
+    if (!$ticket) {
         return $this->response->setJSON([
-            'status'  => true,
-            'message' => 'Detail tiket ID ' . $id . ' berhasil ditemukan.',
-            'data'    => $ticket
-        ]);
+            'status'  => false,
+            'message' => 'Tiket dengan ID ' . $id . ' tidak ditemukan.'
+        ])->setStatusCode(404);
     }
+
+    // 4. Jika ditemukan, kembalikan data spesifik tiket tersebut
+    return $this->response->setJSON([
+        'status'  => true,
+        'message' => 'Detail tiket berhasil ditemukan',
+        'data'    => $ticket
+    ]);
+}
 }
